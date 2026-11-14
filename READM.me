@@ -1,0 +1,42 @@
+## Install Ubuntu di wsl
+wsl --install -d Ubuntu-24.04
+wsl --list --verbose
+wsl -d Ubuntu-24.04
+
+## Credential ubuntu
+Account: user 
+password 123456
+
+## Install terraform
+1. Install dependensi
+Jalankan di terminal Ubuntu WSL:
+sudo apt-get install -y gnupg software-properties-common wget curl
+2. Tambahkan GPG key HashiCorp
+wget -O- https://apt.releases.hashicorp.com/gpg | \
+gpg --dearmor | \
+sudo tee /usr/share/keyrings/hashicorp-archive-keyring.gpg > /dev/null
+### Pastikan file key tersedia:
+ls -l /usr/share/keyrings/hashicorp-archive-keyring.gpg
+
+3. Tambahkan repository Terraform
+echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/hashicorp-archive-keyring.gpg] https://apt.releases.hashicorp.com $(. /etc/os-release && echo ${UBUNTU_CODENAME:-$VERSION_CODENAME}) main" | \
+sudo tee /etc/apt/sources.list.d/hashicorp.list
+
+4. Install Terraform
+sudo apt-get update
+sudo apt-get install -y terraform
+
+5. Verifikasi
+terraform version
+which terraform
+
+6. Menjalankan terraform jalankan di ubuntu
+terraform init
+terraform validate
+terraform plan
+terraform apply
+
+7. Perintah kubectl
+source ~/.bashrc
+echo $KUBECONFIG
+kubectl get nodes
